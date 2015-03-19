@@ -19,31 +19,43 @@ Create a function that takes a string and returns true if that is a valid ISBN-1
 */
 
 var isISBN = function(input){
-	var isbn = input.split('').splice(/\D|\s/);
-	console.log(input);
+
+	var isbn = getRidOfCrap(input);
+	//console.log(isbn);
+	isbn = isbn.split('');
 	isbn = makeNumbers(isbn);
-	var checkDigit = 0;
-	console.log(isbn);
-	console.log(isbn.length);
+	//console.log(isbn);
+
+
+
 	if (isbn.length === 13){
+
+		
+		var checkDigit = 0;
+		//console.log(isbn);
+		//console.log(isbn.length);
+
 		//first part of calculating checkdigit
 		for(i = 0; i<isbn.length-1; i++){
-			if (isEven(isbn[i])){
+			if (isEven(i+1)){
 				checkDigit+=(isbn[i]*3);
-				console.log(checkDigit);
+				//console.log("multiplying ="+isbn[i]*3);
+				//console.log("digit #"+i+":"+checkDigit);
 			}
 			else{
 				checkDigit+=isbn[i];
-				console.log(checkDigit);
+				//console.log("digit #"+i+":"+checkDigit);
 			}
 		}
+
 		//now the modulo part
 		checkDigit%=10;
-		console.log(checkDigit);
-		//checkDigit = (10-checkDigit);
 		//console.log(checkDigit);
-		//checkDigit%=10;
+		checkDigit = (10-checkDigit);
 		//console.log(checkDigit);
+		checkDigit%=10;
+		//console.log(checkDigit);
+
 		//checkin' that digit
 		if (checkDigit === isbn[isbn.length-1])
 			return true;
@@ -61,13 +73,18 @@ var makeNumbers = function(arr){
 	return numbers;
 }
 
+var getRidOfCrap = function(str){
+	var output = str.replace(/\D+|-+/g,'');
+	return output;
+}
 
 var isEven = function(num){
 	if (num%2 === 0)
 		return true;
+	//console.log('odd');
 	return false;
 };
 
-console.log(isISBN("978 0 471 48648 0"));
+console.log(isISBN("978-0-13-149505-0"));
 
 
